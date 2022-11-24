@@ -118,7 +118,7 @@ const Create = (props)=>{
         }
     }
 
-    const onClickPolicyDetailsHandler=()=>{
+    const onClickPolicyDetailsHandler=async()=>{
         try{
             setLoading((loading)=>(
                 {...loading,
@@ -143,10 +143,12 @@ const Create = (props)=>{
         console.log("Clicked")
     }
 
-    const onClickCoverDetailsHandler=(data)=>{
+    const getCoversAllocated=(data)=>{
         setCoverDetailsAllocated([...data])
     }
-
+    const onClickCoverDetailsHandler=()=>{
+        console.log("Clicked")
+    }
     if(policyDetails.length===0||loading.page){
         return(
             <div className={Styles.create}>
@@ -201,7 +203,7 @@ const Create = (props)=>{
                             optionsArray={coverDetails}
                             selectedArray={coverDetailsAllocated}
                             default_value="Cover Details To Be Allocated"
-                            onChange={getCoverDetailsAllocated}
+                            onChange={getCoversAllocated}
                             disable={false}
                         />
                         <div className={Styles.row}>
