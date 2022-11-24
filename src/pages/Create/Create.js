@@ -23,6 +23,12 @@ const Create = (props)=>{
         policy_detail:false,
         cover_detail:false
     })
+    const [states, setStates] = useState({
+        template:"in_progress",
+        partner:"start",
+        policy_detail:"start",
+        cover_detail:"start"
+    })
     const fetchAttributes = async ()=>{
         try{
             setLoading((prevState)=>(
@@ -85,6 +91,11 @@ const Create = (props)=>{
                 "partner_details":null
             })
             setHtmlContent(data)
+            setStates((states)=>({
+                ...states,
+                template:"completed",
+                partner:"in_progress"
+            }))
         }catch(err){
             console.log(err)
         }finally{
@@ -112,6 +123,11 @@ const Create = (props)=>{
                 "coverage_details_list":null
             })
             setHtmlContent(data)
+            setStates((states)=>({
+                ...states,
+                partner:"completed",
+                policy_detail:"in_progress"
+            }))
         }catch(err){
             console.log(err)
         }finally{
@@ -137,6 +153,11 @@ const Create = (props)=>{
                 "partner_details":null
             })
             setHtmlContent(data)
+            setStates((states)=>({
+                ...states,
+                policy_detail:"completed",
+                cover_detail:"in_progress"
+            }))
         }catch(err){
             console.log(err)
         }finally{
@@ -162,6 +183,10 @@ const Create = (props)=>{
                 "partner_details":null
             })
             setHtmlContent(data)
+            setStates((states)=>({
+                ...states,
+                cover_detail:"completed",
+            }))
         }catch(err){
             console.log(err)
         }finally{
@@ -193,52 +218,82 @@ const Create = (props)=>{
                             onChange={getTemplateName}
                             text="Template Name"
                         />
-                        <div className={Styles.row}>
-                            <Button loading={loading.template_details} onClick={onClickSendTemplateName}>Next</Button>
-                        </div>
-                        <Input
-                            type='text'
-                            value={partnerName}
-                            onChange={getPartnerName}
-                            text="Partner Name"
-                        />
-
-                        <Input
-                            type='textarea'
-                            value={partnerAddress}
-                            onChange={getPartnerAddress}
-                            text="Partner Address"
-                        />
-                        <div className={Styles.row}>
-                            <Button loading={loading.partner_detail} onClick={onClickPartnerDetailHandler}>Next</Button>
-                        </div>
-                        <div className={Styles.subForm}>
-                            <MultiSelectDropDown
-                                optionsArray={policyDetails}
-                                selectedArray={policyDetailsAllocated}
-                                default_value='Policy Details To Be Allocated'
-                                onChange={getPolicyDetailsAllocated}
-                                disable={false}
-                            />
-                        </div>
-                        <div className={Styles.row}>
-                            <Button loading={loading.policy_detail} onClick={onClickPolicyDetailsHandler}>Next</Button>
-                        </div>
-                        <div className={Styles.subForm}>
-                            <MultiSelectDropDown
-                                optionsArray={coverDetails}
-                                selectedArray={coverDetailsAllocated}
-                                default_value="Cover Details To Be Allocated"
-                                onChange={getCoversAllocated}
-                                disable={false}
-                            />
-                        </div>
-                        <div className={Styles.row}>
-                            <Button loading={loading.cover_detail} onClick={onClickCoverDetailsHandler}>Next</Button>
-                        </div>
-                        <div className={Styles.footer}>
+                        {
+                            states.template ==='in_progress' &&(
+                                <div className={Styles.row}>
+                                    <Button loading={loading.template_details} onClick={onClickSendTemplateName}>Next</Button>
+                                </div>
+                            )
+                        }
+                        {
+                            (states.partner==='in_progress' || states.partner ==='completed') && (
+                                <>  
+                                <Input
+                                    type='text'
+                                    value={partnerName}
+                                    onChange={getPartnerName}
+                                    text="Partner Name"
+                                />
+        
+                                <Input
+                                    type='textarea'
+                                    value={partnerAddress}
+                                    onChange={getPartnerAddress}
+                                    text="Partner Address"
+                                />
+                                </>
+                            )
+                        }
+                        {
+                            states.partner ==='in_progress' && (
+                                <div className={Styles.row}>
+                                    <Button loading={loading.partner_detail} onClick={onClickPartnerDetailHandler}>Next</Button>
+                                </div>
+                            )
+                        }
+                        {
+                            (states.policy_detail==='in_progress' || states.policy_detail==='completed') &&(
+                                <div className={Styles.subForm}>
+                                    <MultiSelectDropDown
+                                        optionsArray={policyDetails}
+                                        selectedArray={policyDetailsAllocated}
+                                        default_value='Policy Details To Be Allocated'
+                                        onChange={getPolicyDetailsAllocated}
+                                        disable={false}
+                                    />
+                                </div>
+                            )
+                        }
+                        {
+                            states.policy_detail==='in_progress' && (
+                                <div className={Styles.row}>
+                                    <Button loading={loading.policy_detail} onClick={onClickPolicyDetailsHandler}>Next</Button>
+                                </div>
+                            )
+                        }
+                        {
+                            (states.cover_detail==='in_progress' || states.cover_detail==='completed') && (
+                                <div className={Styles.subForm}>
+                                    <MultiSelectDropDown
+                                        optionsArray={coverDetails}
+                                        selectedArray={coverDetailsAllocated}
+                                        default_value="Cover Details To Be Allocated"
+                                        onChange={getCoversAllocated}
+                                        disable={false}
+                                    />
+                                </div>
+                            )
+                        }
+                        {
+                            states.cover_detail === 'in_progress' && (
+                                <div className={Styles.row}>
+                                    <Button loading={loading.cover_detail} onClick={onClickCoverDetailsHandler}>Next</Button>
+                                </div>
+                            )
+                        }
+                        {/* <div className={Styles.footer}>
                             <h1>Footer</h1>
-                        </div>
+                        </div> */}
                     </div>
                 </div>
             </div>
