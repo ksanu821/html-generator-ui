@@ -208,18 +208,14 @@ const Create = (props)=>{
     }
 
     const onClickDownloadHandler = ()=>{
-        const url = window.URL.createObjectURL(
-            new Blob(['Hello'])
-        )
-        const link = document.createElement('a')
-        link.href = url;
-        link.setAttribute(
-        'download',
-        `FileName.pdf`,
-        );
-        document.body.appendChild(link)
-        link.click()
-        link.parentNode.removeChild(link)
+        console.log("Click")
+        const texts = [htmlContent]
+         const file = new Blob(texts, {type: 'text/plain'});
+        const element = document.createElement("a");
+        element.href = URL.createObjectURL(file);
+        element.download = templateName + ".html";
+        document.body.appendChild(element); // Required for this to work in FireFox
+        element.click();
     }
 
     if(policyDetails.length===0||loading.page){
@@ -317,11 +313,15 @@ const Create = (props)=>{
                                 </div>
                             )
                         }
-                        <div className={Styles.footer}>
-                            <Button onClick={onClickDownloadHandler}>
-                                Download <AiOutlineDownload color='white'/>
-                            </Button>
-                        </div>
+                        {
+                            states.cover_detail==="completed" && (
+                                <div className={Styles.footer}>
+                                    <Button onClick={onClickDownloadHandler}>
+                                        Download <AiOutlineDownload color='white'/>
+                                    </Button>
+                                </div>
+                            )
+                        }
                     </div>
                 </div>
             </div>
