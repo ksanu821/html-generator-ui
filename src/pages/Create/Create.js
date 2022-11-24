@@ -13,11 +13,14 @@ const Create = (props)=>{
     const [templateName,setTemplateName] = useState('')
     const [policyDetails,setPolicyDetails] = useState([])
     const [policyDetailsAllocated,setPolicyDetailsAllocated] = useState([])
+    const [coverDetails,setCoverDetails] = useState([])
+    const [coverDetailsAllocated,setCoverDetailsAllocated] = useState([])
     const [htmlContent, setHtmlContent] = useState('')
     const [loading,setLoading] = useState({
         template_details:false,
         partner_detail:false,
-        page:false
+        page:false,
+        policy_detail:false
     })
     const fetchAttributes = async ()=>{
         try{
@@ -28,6 +31,8 @@ const Create = (props)=>{
                 }
             ))
             const {data} = await axios.get('http://localhost:8080/getAttributesForLob/loan')
+            const coverDetails = await axios.get("http://localhost:8080/getCovers")
+            setCoverDetails(coverDetails.data)
             setPolicyDetails(data)
         }catch(err){
             console.log(err)
@@ -113,8 +118,33 @@ const Create = (props)=>{
         }
     }
 
-    const onClickHandler=()=>{
+    const onClickPolicyDetailsHandler=()=>{
+        try{
+            setLoading((loading)=>(
+                {...loading,
+                template_details:true}
+            ))
+            const {data} = await axios.post('http://localhost:8080/generateHeader',{
+                "template_name":templateName,
+                "lob":"loan",
+                "insured_details_list":policyDetailsAllocated,
+                "coverage_details_list":null,
+                "partner_details":null
+            })
+            setHtmlContent(data)
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoading((loading)=>(
+                {...loading,
+                template_details:false}
+            ))
+        }
         console.log("Clicked")
+    }
+
+    const onClickCoverDetailsHandler=(data)=>{
+        setCoverDetailsAllocated([...data])
     }
 
     if(policyDetails.length===0||loading.page){
@@ -141,32 +171,45 @@ const Create = (props)=>{
                         <div className={Styles.row}>
                             <Button loading={loading.template_details} onClick={onClickSendTemplateName}>Next</Button>
                         </div>
-                            <Input
-                                type='text'
-                                value={partnerName}
-                                onChange={getPartnerName}
-                                text="Partner Name"
-                            />
+                        <Input
+                            type='text'
+                            value={partnerName}
+                            onChange={getPartnerName}
+                            text="Partner Name"
+                        />
 
-                            <Input
-                                type='textarea'
-                                value={partnerAddress}
-                                onChange={getPartnerAddress}
-                                text="Partner Address"
-                            />
-                            <div className={Styles.row}>
-                                <Button loading={loading.partner_detail} onClick={onClickPartnerDetailHandler}>Next</Button>
-                            </div>
-                            <MultiSelectDropDown
-                                optionsArray={policyDetails}
-                                selectedArray={policyDetailsAllocated}
-                                default_value='Policy Details To Be Allocated'
-                                onChange={getPolicyDetailsAllocated}
-                                disable={false}
-                            />
-                            <div className={Styles.row}>
-                                <Button onClick={onClickHandler}>Next</Button>
-                            </div>
+                        <Input
+                            type='textarea'
+                            value={partnerAddress}
+                            onChange={getPartnerAddress}
+                            text="Partner Address"
+                        />
+                        <div className={Styles.row}>
+                            <Button loading={loading.partner_detail} onClick={onClickPartnerDetailHandler}>Next</Button>
+                        </div>
+                        <MultiSelectDropDown
+                            optionsArray={policyDetails}
+                            selectedArray={policyDetailsAllocated}
+                            default_value='Policy Details To Be Allocated'
+                            onChange={getPolicyDetailsAllocated}
+                            disable={false}
+                        />
+                        <div className={Styles.row}>
+                            <Button onClick={onClickPolicyDetailsHandler}>Next</Button>
+                        </div>
+                        <MultiSelectDropDown
+                            optionsArray={coverDetails}
+                            selectedArray={coverDetailsAllocated}
+                            default_value="Cover Details To Be Allocated"
+                            onChange={getCoverDetailsAllocated}
+                            disable={false}
+                        />
+                        <div className={Styles.row}>
+                            <Button onClick={onClickCoverDetailsHandler}>Next</Button>
+                        </div>
+                        <div className={Styles.footer}>
+                            <h1>Footer</h1>
+                        </div>
                     </div>
                 </div>
             </div>
