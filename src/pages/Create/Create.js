@@ -20,7 +20,8 @@ const Create = (props)=>{
         template_details:false,
         partner_detail:false,
         page:false,
-        policy_detail:false
+        policy_detail:false,
+        cover_detail:false
     })
     const fetchAttributes = async ()=>{
         try{
@@ -66,6 +67,34 @@ const Create = (props)=>{
         setPolicyDetailsAllocated([...data])
     }
 
+    const getCoversAllocated=(data)=>{
+        setCoverDetailsAllocated([...data])
+    }
+
+    const onClickSendTemplateName=async()=>{
+        try{
+            setLoading((loading)=>(
+                {...loading,
+                template_details:true}
+            ))
+            const {data} = await axios.post('http://localhost:8080/createTemplate',{
+                "template_name":templateName,
+                "lob":"loan",
+                "insured_details_list":null,
+                "coverage_details_list":null,
+                "partner_details":null
+            })
+            setHtmlContent(data)
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoading((loading)=>(
+                {...loading,
+                template_details:false}
+            ))
+        }
+    }
+
     const onClickPartnerDetailHandler =async()=>{
         try{
             setLoading((prevState)=>({
@@ -94,37 +123,13 @@ const Create = (props)=>{
         
     }
 
-    const onClickSendTemplateName=async()=>{
-        try{
-            setLoading((loading)=>(
-                {...loading,
-                template_details:true}
-            ))
-            const {data} = await axios.post('http://localhost:8080/generateHeader',{
-                "template_name":templateName,
-                "lob":"loan",
-                "insured_details_list":null,
-                "coverage_details_list":null,
-                "partner_details":null
-            })
-            setHtmlContent(data)
-        }catch(err){
-            console.log(err)
-        }finally{
-            setLoading((loading)=>(
-                {...loading,
-                template_details:false}
-            ))
-        }
-    }
-
     const onClickPolicyDetailsHandler=async()=>{
         try{
             setLoading((loading)=>(
                 {...loading,
                 template_details:true}
             ))
-            const {data} = await axios.post('http://localhost:8080/generateHeader',{
+            const {data} = await axios.post('http://localhost:8080/createInsuredDetails',{
                 "template_name":templateName,
                 "lob":"loan",
                 "insured_details_list":policyDetailsAllocated,
@@ -137,16 +142,34 @@ const Create = (props)=>{
         }finally{
             setLoading((loading)=>(
                 {...loading,
-                template_details:false}
+                policy_detail:false}
             ))
         }
         console.log("Clicked")
     }
 
-    const getCoversAllocated=(data)=>{
-        setCoverDetailsAllocated([...data])
-    }
-    const onClickCoverDetailsHandler=()=>{
+    const onClickCoverDetailsHandler=async()=>{
+        try{
+            setLoading((loading)=>(
+                {...loading,
+                cover_detail:true}
+            ))
+            const {data} = await axios.post('http://localhost:8080/createCoverDetails',{
+                "template_name":templateName,
+                "lob":"loan",
+                "insured_details_list":null,
+                "coverage_details_list":coverDetailsAllocated,
+                "partner_details":null
+            })
+            setHtmlContent(data)
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoading((loading)=>(
+                {...loading,
+                cover_detail:false}
+            ))
+        }
         console.log("Clicked")
     }
     if(policyDetails.length===0||loading.page){
@@ -197,7 +220,7 @@ const Create = (props)=>{
                             disable={false}
                         />
                         <div className={Styles.row}>
-                            <Button onClick={onClickPolicyDetailsHandler}>Next</Button>
+                            <Button loading={loading.policy_detail} onClick={onClickPolicyDetailsHandler}>Next</Button>
                         </div>
                         <MultiSelectDropDown
                             optionsArray={coverDetails}
@@ -207,7 +230,7 @@ const Create = (props)=>{
                             disable={false}
                         />
                         <div className={Styles.row}>
-                            <Button onClick={onClickCoverDetailsHandler}>Next</Button>
+                            <Button loading={loading.cover_detail} onClick={onClickCoverDetailsHandler}>Next</Button>
                         </div>
                         <div className={Styles.footer}>
                             <h1>Footer</h1>
