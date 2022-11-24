@@ -4,6 +4,7 @@ import {AiFillCloseSquare} from 'react-icons/ai'
 import Button from '../Button/Button'
 
 const Popup = (props)=>{
+    const title=props.value.display_name
     useEffect(()=>{
         document.body.style.overflow='hidden'
         return()=>{
@@ -18,6 +19,7 @@ const Popup = (props)=>{
         <div className={Styles.popupContainer}>
             <div className={Styles.popup}>
                 <div className={Styles.popupHeader}>
+                    <p style={{color:'white'}}>{title}</p>
                     <div className={Styles.popupHeaderIcon} onClick={props.onClose}>
                         <AiFillCloseSquare color='white'/>
                     </div>
