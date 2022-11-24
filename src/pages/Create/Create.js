@@ -1,9 +1,10 @@
 import axios from 'axios'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Button from '../../components/Button/Button'
 import HTMLViewer from '../../components/HTMLViewer/HTMLViewer'
 import Input from '../../components/Input/Input'
 import MultiSelectDropDown from '../../components/MultiSelectDropDown/MultiSelectDropDown'
+import PageLoader from '../../components/PageLoader/PageLoader'
 import { insured_details } from '../../data/mockdata'
 import Styles from './Create.module.scss'
 const Create = (props)=>{
@@ -14,8 +15,33 @@ const Create = (props)=>{
     const [policyDetailsAllocated,setPolicyDetailsAllocated] = useState([])
     const [htmlContent, setHtmlContent] = useState(`<html><body><h1>${masterPolicyNumber}</h1></body></html>`)
     const [loading,setLoading] = useState({
-        partner_detail:false
+        partner_detail:false,
+        page:false
     })
+    const fetchAttributes = async ()=>{
+        try{
+            setLoading((prevState)=>(
+                {
+                    ...prevState,
+                    page:true
+                }
+            ))
+            const data = await axios.get('http://localhost:8080/getAttributesForLob/loan')
+            console.log("Page--->",data)
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoading((prevState)=>(
+                {
+                    ...prevState,
+                    page:false
+                }
+            ))
+        }
+    }
+    useEffect(()=>{
+        fetchAttributes()
+    },[])
 
     const getPartnerName = (value)=>{
         setPartnerName(value)
@@ -60,6 +86,14 @@ const Create = (props)=>{
 
     const onClickHandler=()=>{
         console.log("Clicked")
+    }
+
+    if(policyDetails.length===0||loading.page){
+        return(
+            <div className={Styles.create}>
+                <PageLoader/>
+            </div>
+        )
     }
     
     return(
