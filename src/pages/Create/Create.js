@@ -68,8 +68,10 @@ const Create = (props)=>{
                 partner_detail:true
             }))
             const {data}=await axios.post("http://localhost:8080/generateHeader",{
-                "partner_name":partnerName,
-                "partner_address":partnerAddress,
+                "partner_details":{
+                    "partner_name":partnerName,
+                    "partner_address":partnerAddress,
+                },
                 "lob":"loan"
             })
             setHtmlContent(data)
