@@ -72,7 +72,10 @@ const Create = (props)=>{
                     "partner_name":partnerName,
                     "partner_address":partnerAddress,
                 },
-                "lob":"loan"
+                "lob":"loan",
+                "template_name":templateName,
+                "insured_details_list":null,
+                "coverage_details_list":null
             })
             setHtmlContent(data)
         }catch(err){
@@ -94,7 +97,10 @@ const Create = (props)=>{
             ))
             const {data} = await axios.post('http://localhost:8080/generateHeader',{
                 "template_name":templateName,
-                "lob":"loan"
+                "lob":"loan",
+                "insured_details_list":null,
+                "coverage_details_list":null,
+                "partner_details":null
             })
             setHtmlContent(data)
         }catch(err){
