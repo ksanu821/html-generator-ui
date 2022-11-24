@@ -212,23 +212,27 @@ const Create = (props)=>{
                         <div className={Styles.row}>
                             <Button loading={loading.partner_detail} onClick={onClickPartnerDetailHandler}>Next</Button>
                         </div>
-                        <MultiSelectDropDown
-                            optionsArray={policyDetails}
-                            selectedArray={policyDetailsAllocated}
-                            default_value='Policy Details To Be Allocated'
-                            onChange={getPolicyDetailsAllocated}
-                            disable={false}
-                        />
+                        <div className={Styles.subForm}>
+                            <MultiSelectDropDown
+                                optionsArray={policyDetails}
+                                selectedArray={policyDetailsAllocated}
+                                default_value='Policy Details To Be Allocated'
+                                onChange={getPolicyDetailsAllocated}
+                                disable={false}
+                            />
+                        </div>
                         <div className={Styles.row}>
                             <Button loading={loading.policy_detail} onClick={onClickPolicyDetailsHandler}>Next</Button>
                         </div>
-                        <MultiSelectDropDown
-                            optionsArray={coverDetails}
-                            selectedArray={coverDetailsAllocated}
-                            default_value="Cover Details To Be Allocated"
-                            onChange={getCoversAllocated}
-                            disable={false}
-                        />
+                        <div className={Styles.subForm}>
+                            <MultiSelectDropDown
+                                optionsArray={coverDetails}
+                                selectedArray={coverDetailsAllocated}
+                                default_value="Cover Details To Be Allocated"
+                                onChange={getCoversAllocated}
+                                disable={false}
+                            />
+                        </div>
                         <div className={Styles.row}>
                             <Button loading={loading.cover_detail} onClick={onClickCoverDetailsHandler}>Next</Button>
                         </div>
