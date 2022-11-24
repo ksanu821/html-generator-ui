@@ -107,12 +107,15 @@ const MultiSelectDropDown=(props)=>{
     const popupSubmit=(value)=>{
         check(value)
         setSelectedValue(null)
+        setSubDescription('')
+        setDescription('')
     }
 
     const popupClose=()=>{
         setPopupVisible(false)
         setSelectedValue(null)
-        console.log(subDescription, description)
+        setSubDescription('')
+        setDescription('')
     }
 
     if(showPopup && popupVisible && selectedValue){

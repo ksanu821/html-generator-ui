@@ -19,7 +19,9 @@ const Popup = (props)=>{
         <div className={Styles.popupContainer}>
             <div className={Styles.popup}>
                 <div className={Styles.popupHeader}>
-                    <p style={{color:'white'}}>{title}</p>
+                    <div className={Styles.popupHeaderTitle}>
+                        <p style={{color:'white'}}>{title}</p>
+                    </div>
                     <div className={Styles.popupHeaderIcon} onClick={props.onClose}>
                         <AiFillCloseSquare color='white'/>
                     </div>
