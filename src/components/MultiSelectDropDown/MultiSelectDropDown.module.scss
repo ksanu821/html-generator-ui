@@ -1,0 +1,67 @@
+.multiSelectDropDown{
+    width: 100%;
+    position: relative;
+}
+.multiSelectDropDown>button{
+    width: 100%;
+    text-align: left;
+    background-color: #ffffff;
+    padding: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+.multipSelecDropDownContainer{
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+}
+.dropDown{
+    position: absolute;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+}
+.dropDownOption{
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    background-color: #ffffff;
+    cursor: pointer;
+}
+.dropDownOption:hover{
+    background-color: rgb(238, 238, 238);
+    color: #0075f3;
+}
+.dropDownOption>button{
+    background:none;
+    border: none;
+}
+.dropDownOption>button>svg{
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+.dropDownOption>p{
+    margin-bottom: 4px;
+    margin-left: 10px;
+    font-size: 22px;
+}
+.selectedValues{
+    display: flex;
+    width: fit-content;
+    flex-wrap: wrap;
+}
+.selectedValues>*{
+    margin-right: 4px;
+}
+
+.rotate{
+    transform: rotate(180deg);
+    transition: all 200ms ease-in-out;
+}
+.completeRotate{
+  transform: rotate(360deg);
+  transition: all 200ms ease-in-out;
+}

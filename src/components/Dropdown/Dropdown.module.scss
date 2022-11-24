@@ -1,0 +1,81 @@
+.dropdown{
+    width: 100%;
+    position: relative;
+    border: 1px solid #bfbbbb;
+    cursor: pointer;
+}
+.dropdownButton{
+    padding: 8px;
+    font-size: 22px;
+    outline: none;
+}
+.dropDownHeader {
+    font-size: 22px;
+    font-weight: 500;
+    color: #0075f3;
+  }
+  
+  .dropdown:focus {
+    outline: none;
+  }
+  
+  .active {
+    background: #ffffff;
+    color: #0075f3;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 22px;
+    border-bottom: 0.3px solid rgb(136, 134, 134);
+    border-radius: 8px;
+  }
+  
+  .dropdownLink {
+    background: #ffffff;
+    color: #747474;
+    border-bottom: 0.3px solid rgb(136, 134, 134);
+    display: block;
+    width: 100%;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 400;
+    text-align: left;
+    white-space: nowrap;
+    font-size: 22px;
+  }
+  
+  .active:hover {
+    color: #0075f3;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .dropdownLink:hover {
+    color: #0075f3;
+    text-decoration: none;
+    background-color: #f3eeee;
+    cursor: pointer;
+  }
+  .rotate{
+      transform: rotate(180deg);
+      transition: all 200ms ease-in-out;
+  }
+  .completeRotate{
+    transform: rotate(360deg);
+    transition: all 200ms ease-in-out;
+  }
+  .disable{
+      cursor: not-allowed;
+     background-color: #a5a3a3c7;
+  }
+  .background{
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
