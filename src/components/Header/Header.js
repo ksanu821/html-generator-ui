@@ -3,8 +3,7 @@ const Header=()=>{
     return(
         <div className={Styles.header}>
             <div className={Styles.header_left}>
-                {/* <img src='' alt=''/> */}
-                <h1>Acko Image</h1>
+                <img src="https://www.acko.com/static/images/Acko_Logo_Pale.png" alt=''/>
             </div>
             <div className={Styles.header_right}></div>
         </div>

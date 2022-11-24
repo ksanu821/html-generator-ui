@@ -7,23 +7,25 @@ const MultiSelectDropDown=(props)=>{
     const {optionsArray,default_value,onChange,selectedArray,disable}=props;
     const [filterArray,setFilterArray]=useState([])
     const [showDropDown,setShowDropDown]=useState(false)
+    console.log("SELECTED ARRAY--->",selectedArray)
 
     useEffect(()=>{
         setFilterArray(optionsArray.map((options)=>({
-            name:options.name,
+            ...options,
+            name:options.display_name,
             checked:false
         })))
     },[optionsArray])
 
-    const checkForParticularRow=(indexPosition)=>(e)=>{
+    const checkForParticularRow=(value)=>(e)=>{
         e.preventDefault();
         const filteredArray =filterArray.map((option,index)=>{
-            if(index===indexPosition){
+            if(value.id===option.id){
                 if(!option.checked){
-                    const updatedArray=[...selectedArray,option.name]
+                    const updatedArray=[...selectedArray,option]
                     onChange(updatedArray)
                 }else{
-                    const updatedArray= selectedArray.filter((selectedValue)=>selectedValue!==option.name)
+                    const updatedArray= selectedArray.filter((selectedValue)=>selectedValue.id!==option.id)
                     onChange(updatedArray)
                 }
                 
@@ -49,11 +51,11 @@ const MultiSelectDropDown=(props)=>{
 
     const removeSelectedValue=(value)=>(e)=>{
         e.preventDefault();
-        const updatedArray= selectedArray.filter((selectedOption)=>selectedOption!==value)
+        const updatedArray= selectedArray.filter((selectedOption)=>selectedOption.id!==value.id)
         onChange(updatedArray)
         setFilterArray((filterArray)=>{
             return filterArray.map((filterValue)=>{
-                if(filterValue.name===value){
+                if(filterValue.name===value.name){
                     return {
                         ...filterValue,
                         checked:false
@@ -80,7 +82,7 @@ const MultiSelectDropDown=(props)=>{
                         <div className={Styles.selectedValues} onClick={(e)=>{e.stopPropagation()}}>
                             {
                                 selectedArray.map((value,index)=>(
-                                    <Chip key={index} text={value} onClose={removeSelectedValue(value)}/>
+                                    <Chip key={index} text={value.name} onClose={removeSelectedValue(value)}/>
                                 ))
                             }
                         </div>
@@ -95,7 +97,7 @@ const MultiSelectDropDown=(props)=>{
                     <div className={Styles.dropDown}>
                         {
                             filterArray.map((value,index)=>(
-                                <div key={index} className={Styles.dropDownOption} onClick={checkForParticularRow(index)}>
+                                <div key={index} className={Styles.dropDownOption} onClick={checkForParticularRow(value)}>
                                     <button>{value.checked?<ImCheckboxChecked  style={{color:'green'}}/>:<ImCheckboxUnchecked/>}</button>
                                     <p>{value.name}</p>
                                 </div>

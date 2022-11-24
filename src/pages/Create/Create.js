@@ -5,16 +5,17 @@ import HTMLViewer from '../../components/HTMLViewer/HTMLViewer'
 import Input from '../../components/Input/Input'
 import MultiSelectDropDown from '../../components/MultiSelectDropDown/MultiSelectDropDown'
 import PageLoader from '../../components/PageLoader/PageLoader'
-import { insured_details } from '../../data/mockdata'
+// import { insured_details } from '../../data/mockdata'
 import Styles from './Create.module.scss'
 const Create = (props)=>{
     const [partnerName, setPartnerName] = useState('')
     const [partnerAddress,setPartnerAddress] = useState('')
-    const [masterPolicyNumber,setMasterPolicyNumber] = useState('')
-    const [policyDetails,setPolicyDetails] = useState(insured_details)
+    const [templateName,setTemplateName] = useState('')
+    const [policyDetails,setPolicyDetails] = useState([])
     const [policyDetailsAllocated,setPolicyDetailsAllocated] = useState([])
-    const [htmlContent, setHtmlContent] = useState(`<html><body><h1>${masterPolicyNumber}</h1></body></html>`)
+    const [htmlContent, setHtmlContent] = useState('')
     const [loading,setLoading] = useState({
+        template_details:false,
         partner_detail:false,
         page:false
     })
@@ -26,8 +27,8 @@ const Create = (props)=>{
                     page:true
                 }
             ))
-            const data = await axios.get('http://localhost:8080/getAttributesForLob/loan')
-            console.log("Page--->",data)
+            const {data} = await axios.get('http://localhost:8080/getAttributesForLob/loan')
+            setPolicyDetails(data)
         }catch(err){
             console.log(err)
         }finally{
@@ -51,9 +52,8 @@ const Create = (props)=>{
         setPartnerAddress(value)
     }
 
-    const getMasterPolicyNumber = (value)=>{
-        console.log(value)
-        setMasterPolicyNumber(value)
+    const getTemplateName = (value)=>{
+        setTemplateName(value)
     }
 
     const getPolicyDetailsAllocated = (data)=>{
@@ -69,8 +69,8 @@ const Create = (props)=>{
             }))
             const {data}=await axios.post("http://localhost:8080/generateHeader",{
                 "partner_name":partnerName,
-                "master_policy_number":masterPolicyNumber,
-                "partner_address":partnerAddress
+                "partner_address":partnerAddress,
+                "lob":"loan"
             })
             setHtmlContent(data)
         }catch(err){
@@ -84,6 +84,27 @@ const Create = (props)=>{
         
     }
 
+    const onClickSendTemplateName=async()=>{
+        try{
+            setLoading((loading)=>(
+                {...loading,
+                template_details:true}
+            ))
+            const {data} = await axios.post('http://localhost:8080/generateHeader',{
+                "template_name":templateName,
+                "lob":"loan"
+            })
+            setHtmlContent(data)
+        }catch(err){
+            console.log(err)
+        }finally{
+            setLoading((loading)=>(
+                {...loading,
+                template_details:false}
+            ))
+        }
+    }
+
     const onClickHandler=()=>{
         console.log("Clicked")
     }
@@ -95,24 +116,28 @@ const Create = (props)=>{
             </div>
         )
     }
+
+    console.log(policyDetails)
     
     return(
         <div className={Styles.create}>
             <div className={Styles.create_left}>
                 <div className={Styles.form}>
                     <div className={Styles.formControl}>
+                        <Input
+                            type='text'
+                            value={templateName}
+                            onChange={getTemplateName}
+                            text="Template Name"
+                        />
+                        <div className={Styles.row}>
+                            <Button loading={loading.template_details} onClick={onClickSendTemplateName}>Next</Button>
+                        </div>
                             <Input
                                 type='text'
                                 value={partnerName}
                                 onChange={getPartnerName}
                                 text="Partner Name"
-                            />
-
-                            <Input
-                                type='text'
-                                value={masterPolicyNumber}
-                                onChange={getMasterPolicyNumber}
-                                text="Master Policy Number"
                             />
 
                             <Input
