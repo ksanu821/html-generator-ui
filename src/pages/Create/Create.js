@@ -5,6 +5,7 @@ import HTMLViewer from '../../components/HTMLViewer/HTMLViewer'
 import Input from '../../components/Input/Input'
 import MultiSelectDropDown from '../../components/MultiSelectDropDown/MultiSelectDropDown'
 import PageLoader from '../../components/PageLoader/PageLoader'
+import {AiOutlineDownload} from 'react-icons/ai'
 // import { cover_details, insured_details } from '../../data/mockdata'
 import Styles from './Create.module.scss'
 const Create = (props)=>{
@@ -205,6 +206,22 @@ const Create = (props)=>{
         }
         console.log("Clicked")
     }
+
+    const onClickDownloadHandler = ()=>{
+        const url = window.URL.createObjectURL(
+            new Blob(['Hello'])
+        )
+        const link = document.createElement('a')
+        link.href = url;
+        link.setAttribute(
+        'download',
+        `FileName.pdf`,
+        );
+        document.body.appendChild(link)
+        link.click()
+        link.parentNode.removeChild(link)
+    }
+
     if(policyDetails.length===0||loading.page){
         return(
             <div className={Styles.create}>
@@ -300,9 +317,11 @@ const Create = (props)=>{
                                 </div>
                             )
                         }
-                        {/* <div className={Styles.footer}>
-                            <h1>Footer</h1>
-                        </div> */}
+                        <div className={Styles.footer}>
+                            <Button onClick={onClickDownloadHandler}>
+                                Download <AiOutlineDownload color='white'/>
+                            </Button>
+                        </div>
                     </div>
                 </div>
             </div>
