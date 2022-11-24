@@ -1,0 +1,53 @@
+.popupContainer{
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background-color: rgba(0,0,0,0.4);
+    display: grid;
+    place-items: center;
+}
+
+.popup{
+    width: 800px;
+    height: 300px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    border-radius: 12px;
+}
+
+.popupHeader{
+    width: 100%;
+    height: 15%;
+    background-color: rgb(104, 81, 160);
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    padding: 5px;
+}
+
+.popupHeaderIcon{
+    width: 30px;
+    height: 30px;
+}
+
+.popupHeaderIcon>svg{
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+.popupBody{
+    border: 1px solid black;
+    width: 100%;
+    flex: 1;
+    padding: 10px;
+}
+
+.button{
+    width: 100%;
+    display: grid;
+    place-items: center;
+}

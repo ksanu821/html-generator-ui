@@ -96,3 +96,26 @@ export const insured_details=[
         "created_on": "2022-11-24T14:27:57.295462+05:30"
     }
 ]
+
+export const cover_details =[{
+    "id": 4,
+    "cover_id": "plan_c",
+    "link": "https://",
+    "created_on": "2022-11-24T22:07:40.45002+05:30",
+    "display_name": "PLAN A"
+},
+{
+    "id": 5,
+    "cover_id": "plan_new",
+    "link": "https://ancnicn.png",
+    "created_on": "2022-11-25T01:49:41.335137+05:30",
+    "display_name": "New Plan"
+},
+{
+    "id": 6,
+    "cover_id": "plan_new1",
+    "link": "https://ancnicn.png",
+    "created_on": "2022-11-25T01:49:50.154002+05:30",
+    "display_name": "New Plan 1"
+}
+]

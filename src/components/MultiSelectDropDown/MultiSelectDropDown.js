@@ -3,10 +3,16 @@ import Styles from './MultiSelectDropDown.module.scss'
 import {ImCheckboxChecked, ImCheckboxUnchecked} from 'react-icons/im'
 import Chip from '../Chip/Chip';
 import { AiFillCaretDown } from 'react-icons/ai';
+import Popup from '../Popup/Popup';
+import Input from '../Input/Input';
 const MultiSelectDropDown=(props)=>{
-    const {optionsArray,default_value,onChange,selectedArray,disable}=props;
+    const {optionsArray,default_value,onChange,selectedArray,disable,showPopup}=props;
     const [filterArray,setFilterArray]=useState([])
     const [showDropDown,setShowDropDown]=useState(false)
+    const [popupVisible,setPopupVisible] = useState(false)
+    const [subDescription,setSubDescription] = useState('')
+    const [description,setDescription] = useState('')
+    const [selectedValue, setSelectedValue] = useState(null)
     console.log("SELECTED ARRAY--->",selectedArray)
 
     useEffect(()=>{
@@ -17,29 +23,49 @@ const MultiSelectDropDown=(props)=>{
         })))
     },[optionsArray])
 
-    const checkForParticularRow=(value)=>(e)=>{
-        e.preventDefault();
+    const check=(value)=>{
         const filteredArray =filterArray.map((option,index)=>{
+            let newOption={
+                ...option
+            }
             if(value.id===option.id){
+                if(showPopup){
+                    newOption={
+                        ...newOption,
+                        description:description,
+                        sub_description:subDescription
+                    }
+                }
                 if(!option.checked){
-                    const updatedArray=[...selectedArray,option]
+                    const updatedArray=[...selectedArray,newOption]
                     onChange(updatedArray)
                 }else{
-                    const updatedArray= selectedArray.filter((selectedValue)=>selectedValue.id!==option.id)
+                    const updatedArray= selectedArray.filter((selectedValue)=>selectedValue.id!==newOption.id)
                     onChange(updatedArray)
                 }
                 
                 return {
-                    ...option,
-                    checked:!option.checked
+                    ...newOption,
+                    checked:!newOption.checked
                 }
             }else{
                 return {
-                    ...option
+                    ...newOption
                 }
             }
         })
         setFilterArray([...filteredArray])
+    }
+
+    const checkForParticularRow=(value)=>(e)=>{
+        e.preventDefault();
+        if(showPopup){
+            setPopupVisible(true)
+            setSelectedValue(value)
+        }else{
+            check(value)
+        }
+        
     }
 
     const enableDropDown=(e)=>{
@@ -68,6 +94,44 @@ const MultiSelectDropDown=(props)=>{
             })
         })
 
+    }
+
+    const getSubDescription = (value)=>{
+        setSubDescription(value)
+    }
+
+    const getDescription=(value)=>{
+        setDescription(value)
+    }
+
+    const popupSubmit=(value)=>{
+        check(value)
+        setSelectedValue(null)
+    }
+
+    const popupClose=()=>{
+        setPopupVisible(false)
+        setSelectedValue(null)
+        console.log(subDescription, description)
+    }
+
+    if(showPopup && popupVisible && selectedValue){
+        return (
+            <Popup value={selectedValue} onSubmit={popupSubmit} onClose={popupClose} submitText={"Save"}>
+                <Input
+                    type='text'
+                    value={subDescription}
+                    onChange={getSubDescription}
+                    text="Brief Description"
+                />
+                <Input
+                    type='textarea'
+                    value={description}
+                    onChange={getDescription}
+                    text="Detailed Description"
+                />
+            </Popup>
+        )
     }
 
     return(

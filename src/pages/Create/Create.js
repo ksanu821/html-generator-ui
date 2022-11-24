@@ -5,7 +5,7 @@ import HTMLViewer from '../../components/HTMLViewer/HTMLViewer'
 import Input from '../../components/Input/Input'
 import MultiSelectDropDown from '../../components/MultiSelectDropDown/MultiSelectDropDown'
 import PageLoader from '../../components/PageLoader/PageLoader'
-// import { insured_details } from '../../data/mockdata'
+// import { cover_details, insured_details } from '../../data/mockdata'
 import Styles from './Create.module.scss'
 const Create = (props)=>{
     const [partnerName, setPartnerName] = useState('')
@@ -29,6 +29,13 @@ const Create = (props)=>{
         policy_detail:"start",
         cover_detail:"start"
     })
+
+    // const [states, setStates] = useState({
+    //     template:"completed",
+    //     partner:"completed",
+    //     policy_detail:"completed",
+    //     cover_detail:"in_progress"
+    // })
     const fetchAttributes = async ()=>{
         try{
             setLoading((prevState)=>(
@@ -76,6 +83,7 @@ const Create = (props)=>{
     const getCoversAllocated=(data)=>{
         setCoverDetailsAllocated([...data])
     }
+
 
     const onClickSendTemplateName=async()=>{
         try{
@@ -275,6 +283,7 @@ const Create = (props)=>{
                             (states.cover_detail==='in_progress' || states.cover_detail==='completed') && (
                                 <div className={Styles.subForm}>
                                     <MultiSelectDropDown
+                                        showPopup={true}
                                         optionsArray={coverDetails}
                                         selectedArray={coverDetailsAllocated}
                                         default_value="Cover Details To Be Allocated"
