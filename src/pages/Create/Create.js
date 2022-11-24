@@ -127,7 +127,7 @@ const Create = (props)=>{
         try{
             setLoading((loading)=>(
                 {...loading,
-                template_details:true}
+                policy_detail:true}
             ))
             const {data} = await axios.post('http://localhost:8080/createInsuredDetails',{
                 "template_name":templateName,
