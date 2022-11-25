@@ -8,10 +8,21 @@
 }
 .header_left{
     width: 20%;
+    cursor: pointer;
 }
 .header_left>img{
     width: 100px;
 }
 .header_right{
     flex: 1;
+}
+.headerLink{
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    margin-left: auto;
+}
+.header_right_box{
+    width: 100%;
+    display: flex;
 }

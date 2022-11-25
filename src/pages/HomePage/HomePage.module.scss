@@ -1,0 +1,72 @@
+.homePage{
+    width: 100%;
+    display: flex;
+    flex: 1;
+    border: 2px solid red;
+}
+
+.homePageContainer{
+    width: 80%;
+    min-height: 600px;
+    border: 1px solid red;
+    margin: 20px auto;
+}
+
+.homePageContainerColumn{
+    width: 100%;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    background-color: rgb(104, 81, 160);
+}
+
+.homePageContainerColumnLeft{
+    width: 20%;
+    display: grid;
+    place-items: center;
+    color: white;
+    height: 100%;
+}
+
+.homePageContainerColumnMiddle{
+    flex: 1;
+    display: grid;
+    place-items: center;
+    color: white;
+    height: 100%;
+}
+.homePageBodyRow{
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0,0,0,0.3);
+    padding: 10px;
+}
+.homePageContainerColumnRight{
+    width: 20%;
+    display: grid;
+    place-items: center;
+    color: white;
+}
+
+.homePageContainerRowLeft{
+    width: 20%;
+    display: grid;
+    place-items: center;
+    color: black;
+    height: 100%;
+}
+
+.homePageContainerRowMiddle{
+    flex: 1;
+    display: grid;
+    place-items: center;
+    color: black;
+    height: 100%;
+}
+
+.homePageContainerRowRight{
+    width: 20%;
+    display: grid;
+    place-items: center;
+    color: black;
+}

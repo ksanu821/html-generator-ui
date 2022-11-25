@@ -9,7 +9,7 @@ function App() {
       <Router>
         <Layout>
           <Switch>
-            <Route path="/create" exact>
+            <Route path="/:id" exact>
               <Create/>
             </Route>
             <Route path='/' exact>

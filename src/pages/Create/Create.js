@@ -6,8 +6,9 @@ import Input from '../../components/Input/Input'
 import MultiSelectDropDown from '../../components/MultiSelectDropDown/MultiSelectDropDown'
 import PageLoader from '../../components/PageLoader/PageLoader'
 import {AiOutlineDownload} from 'react-icons/ai'
-// import { cover_details, insured_details } from '../../data/mockdata'
 import Styles from './Create.module.scss'
+import { useParams } from 'react-router-dom'
+// import { cover_details, insured_details, templateMock } from '../../data/mockdata'
 const Create = (props)=>{
     const [partnerName, setPartnerName] = useState('')
     const [partnerAddress,setPartnerAddress] = useState('')
@@ -30,7 +31,7 @@ const Create = (props)=>{
         policy_detail:"start",
         cover_detail:"start"
     })
-
+    let {id} = useParams()
     // const [states, setStates] = useState({
     //     template:"completed",
     //     partner:"completed",
@@ -60,9 +61,58 @@ const Create = (props)=>{
             ))
         }
     }
+
+    const fetchTemplateDetails = async()=>{
+        try{
+            setLoading((prevState)=>(
+                {
+                    ...prevState,
+                    page:true
+                }
+            ))
+            setStates((states)=>({
+                ...states,
+                cover_detail:"completed",
+                partner:"completed",
+                policy_detail:"completed",
+                template:"completed"
+            }))
+            // const {data} = await axios.get(`http://localhost:8080/getTemplateDetails/loan/${id}`)
+            // const data= templateMock
+            // const histroy=templateMock.templateHistory
+            // setTemplateName(histroy.template_name)
+            // const coverageDetailsParsed =JSON.parse(histroy.coverage_details_request)
+            // console.log(coverageDetailsParsed)
+            // setCoverDetailsAllocated(coverageDetailsParsed.coverage_details_list)
+            // const insuredDetailsParsed =JSON.parse(histroy.insured_details_request)
+            // console.log(insuredDetailsParsed)
+            // setPolicyDetailsAllocated(insuredDetailsParsed.insured_details_list)
+            // const partnerDetailsRequestParsed = JSON.parse(histroy.partner_details_request)
+            // const partnerDetailsParsed = JSON.parse(partnerDetailsRequestParsed.partner_details)
+            // setPartnerName(partnerDetailsParsed.partner_name)
+            // setPartnerAddress(partnerDetailsParsed.partner_address)
+            // setHtmlContent(data.htmlContent)
+        }catch(err){
+            console.log(err)
+        }finally{
+            console.log("Change")
+            setLoading((prevState)=>(
+                {
+                    ...prevState,
+                    page:false
+                }
+            ))
+        }
+    }
+
     useEffect(()=>{
-        fetchAttributes()
-    },[])
+        console.log(id)
+        if(id==='create'){
+            fetchAttributes()
+        }else{
+            fetchTemplateDetails()
+        }
+    },[id])
 
     const getPartnerName = (value)=>{
         setPartnerName(value)
